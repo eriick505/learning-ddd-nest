@@ -8,7 +8,8 @@ describe('Delete Product', () => {
     const repository = new InMemoryProductRepository();
     const deleteProduct = new DeleteProduct(repository);
 
-    const product = makeProduct();
+    const productId = 'product-id';
+    const product = makeProduct({}, productId);
 
     await repository.create(product);
     await repository.create(makeProduct());
@@ -16,7 +17,7 @@ describe('Delete Product', () => {
     await repository.create(makeProduct());
 
     await deleteProduct.execute({
-      productId: product.id,
+      productId,
     });
 
     expect(repository.productList.length).toEqual(3);

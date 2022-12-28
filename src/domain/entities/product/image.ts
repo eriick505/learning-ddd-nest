@@ -1,17 +1,21 @@
 import { randomUUID } from 'crypto';
 
-export interface ProductImageProps {
+export interface ImageProps {
   path: string;
   productId: string;
 }
 
-export class ProductImage {
+export class Image {
   private _id: string;
-  private props: ProductImageProps;
+  private props: ImageProps;
 
-  constructor(props: ProductImageProps) {
+  constructor(props: ImageProps) {
     this._id = randomUUID();
     this.props = props;
+  }
+
+  public static create(props: ImageProps) {
+    return new Image(props);
   }
 
   public get id() {
