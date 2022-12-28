@@ -22,7 +22,7 @@
       "@application/*": ["./src/application/*"],
       "@domain/*": ["./src/domain/*"],
       "@adapters/*": ["./src/adapters/*"],
-      "@helpers/*": ["./src/shared/helpers/*"],
+      "@shared/*": ["./src/shared/*"],
       "@infra/*": ["./src/infra/*"],
       "@test/*": ["./test/*"]
     }
