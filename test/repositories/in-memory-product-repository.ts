@@ -1,4 +1,4 @@
-import { CreateProductData, Product } from '@domain/entities';
+import { Product } from '@domain/entities';
 import { ProductRepository } from '@domain/repositories';
 
 export class InMemoryProductRepository implements ProductRepository {
@@ -22,7 +22,13 @@ export class InMemoryProductRepository implements ProductRepository {
     );
   }
 
-  async update(product: Partial<CreateProductData>): Promise<Product> {
-    throw new Error('Method not implemented.');
+  async update(product: Product): Promise<Product> {
+    const productIndex = this.productList.findIndex((p) => p.id === product.id);
+
+    if (productIndex < 0) return;
+
+    this.productList[productIndex] = product;
+
+    return this.productList[productIndex];
   }
 }
