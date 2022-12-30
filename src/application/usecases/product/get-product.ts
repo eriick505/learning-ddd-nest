@@ -4,14 +4,17 @@ import { Product } from '@domain/entities';
 import { ProductRepository } from '@domain/repositories';
 
 import { ProductNotFound } from '@application/usecases';
+import { Either, left, right } from '@shared/application/either';
 
 export interface GetProductRequest {
   productId: string;
 }
 
-export interface GetProductResponse {
+export interface GetProductData {
   product: Product;
 }
+
+export type GetProductResponse = Either<ProductNotFound, GetProductData>;
 
 @Injectable()
 export class GetProduct {
@@ -23,11 +26,11 @@ export class GetProduct {
     const product = await this.productRepository.findById(productId);
 
     if (!product) {
-      throw new ProductNotFound();
+      return left(new ProductNotFound());
     }
 
-    return {
+    return right({
       product,
-    };
+    });
   }
 }

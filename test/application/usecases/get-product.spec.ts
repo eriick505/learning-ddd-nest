@@ -1,4 +1,4 @@
-import { GetProduct } from '@application/usecases';
+import { GetProduct, ProductNotFound } from '@application/usecases';
 
 import { makeProduct } from '@test/factories';
 import { InMemoryProductRepository } from '@test/repositories';
@@ -13,19 +13,20 @@ describe('Get Product', () => {
     await repository.create(product);
     await repository.create(makeProduct());
 
-    const { product: ProductFound } = await getProduct.execute({
+    const productFound = await getProduct.execute({
       productId: product.id,
     });
 
-    expect(product).toEqual(ProductFound);
+    expect({ product }).toEqual(productFound.value);
   });
 
-  it('should throw error when try to get a product that not exist', async () => {
+  it('should not get a product that not exist', async () => {
     const repository = new InMemoryProductRepository();
     const getProduct = new GetProduct(repository);
 
-    expect(() => {
-      return getProduct.execute({ productId: 'productId' });
-    }).rejects.toThrowError();
+    const productOrError = await getProduct.execute({ productId: 'productId' });
+
+    expect(productOrError.isLeft()).toBeTruthy();
+    expect(productOrError.value).toEqual(new ProductNotFound());
   });
 });
