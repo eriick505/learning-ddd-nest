@@ -1,4 +1,4 @@
-import { Product } from '@domain/entities';
+import { CreateProductData, Product } from '@domain/entities';
 import { ProductRepository } from '@domain/repositories';
 
 export class InMemoryProductRepository implements ProductRepository {
@@ -22,7 +22,7 @@ export class InMemoryProductRepository implements ProductRepository {
     );
   }
 
-  async update(productId: string): Promise<Product> {
+  async update(product: Partial<CreateProductData>): Promise<Product> {
     throw new Error('Method not implemented.');
   }
 }
