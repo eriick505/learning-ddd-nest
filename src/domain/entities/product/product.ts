@@ -34,8 +34,9 @@ export class Product {
 
   public static create(
     props: CreateProductData,
+    id?: string,
   ): Either<RatingInvalidError, Product> {
-    const productId = randomUUID();
+    const productId = id ?? randomUUID();
 
     const ratingOrError = Rating.create({ rating: props.rating });
     const image = Image.create({ productId, path: props.image.path });
